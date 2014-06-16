@@ -37,6 +37,7 @@ public:
     void Run();
 
     void Stop();
+    void SavePGM( const char* file );
 
 protected:
 

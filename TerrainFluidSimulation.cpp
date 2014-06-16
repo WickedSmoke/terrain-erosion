@@ -39,6 +39,35 @@ void TerrainFluidSimulation::Stop()
     _finished = true;
 }
 
+void TerrainFluidSimulation::SavePGM( const char* file )
+{
+    const Grid2D<float>& grid = _simulation.terrain;
+    const float* it  = grid.ptr();
+    const float* end = it + grid.size();
+    float low  =  9999.0f;
+    float high = -9999.0f;
+    float scale;
+
+    for( ; it != end; ++it )
+    {
+        float n = *it;
+        if( low > n )
+            low = n;
+        if( high < n )
+            high = n;
+    }
+    scale = 255.0f / (high - low);
+
+    FILE* fp = fopen( file, "w" );
+    if( fp )
+    {
+        fprintf( fp, "P5 %d %d 255\n", grid.width(), grid.height() );
+        for( it = grid.ptr(); it != end; ++it )
+            fputc( int((*it - low) * scale), fp );
+        fclose( fp );
+    }
+}
+
 void TerrainFluidSimulation::runMainloop()
 {
     using namespace std::chrono;

@@ -27,6 +27,18 @@ void onWindowClose( GLFWwindow* )
     if (simulationPtr) simulationPtr->Stop();
 }
 
+void keyHandler( GLFWwindow*, int key, int /*code*/, int action, int mods )
+{
+    if( action == GLFW_PRESS )
+    {
+        //if( mods & GLFW_MOD_CONTROL && key == GLFW_KEY_S )
+        if( key == GLFW_KEY_F4 )
+        {
+            simulationPtr->SavePGM( "erosion.pgm" );
+        }
+    }
+}
+
 int main(int argc, char** argv)
 {
     // Settings ////////////////////////////////////////////////////////////
@@ -108,6 +120,7 @@ int main(int argc, char** argv)
     ////////////////////////////////////////////////////////////////////////
 
     glfwSetWindowCloseCallback(win, onWindowClose);
+    glfwSetKeyCallback(win, keyHandler);
 
 
     simulationPtr = new TerrainFluidSimulation(terrainDim);
