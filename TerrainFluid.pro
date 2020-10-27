@@ -51,10 +51,10 @@ mac {
     QMAKE_CXXFLAGS += -fopenmp
     QMAKE_LFLAGS += -fopenmp
     CONFIG    += link_pkgconfig
-    PKGCONFIG += libglfw
+  # PKGCONFIG += libglfw
     LIBS+=-lboost_system
     LIBS+=-lboost_filesystem
-    LIBS+=-lGLEW
+    LIBS+=-lglfw -lGLEW
     LIBS+=-lGL
 
     copydata.commands = $(COPY_DIR) $$PWD/Resources $$OUT_PWD

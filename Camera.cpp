@@ -17,6 +17,8 @@ using namespace glm;
 
 Camera::Camera()
 {
+    _position = vec3(0.0);
+    _forward = fquat(1.0f,0.0f,0.0f,0.0f);
     SetProjection();
 }
 

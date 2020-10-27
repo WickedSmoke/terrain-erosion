@@ -100,24 +100,24 @@ void TerrainFluidSimulation::runMainloop()
 void TerrainFluidSimulation::checkInput()
 {
     // exit
-    if (glfwGetKey(GLFW_KEY_ESC))
+    if (glfwGetKey(win,GLFW_KEY_ESCAPE))
     {
         _finished = true;
     }
 
-    if (glfwGetKey('O')) _rain = true;
-    if (glfwGetKey('P')) _rain = false;
+    if (glfwGetKey(win,'O')) _rain = true;
+    if (glfwGetKey(win,'P')) _rain = false;
 
-    if (glfwGetKey('K')) _flood = true;
-    if (glfwGetKey('L')) _flood = false;
+    if (glfwGetKey(win,'K')) _flood = true;
+    if (glfwGetKey(win,'L')) _flood = false;
 
 
     // move rain position
     float d = 1.0f;
-    if (glfwGetKey(GLFW_KEY_UP)) _rainPos.y += d;
-    if (glfwGetKey(GLFW_KEY_DOWN)) _rainPos.y -= d;
-    if (glfwGetKey(GLFW_KEY_RIGHT)) _rainPos.x += d;
-    if (glfwGetKey(GLFW_KEY_LEFT)) _rainPos.x -= d;
+    if (glfwGetKey(win,GLFW_KEY_UP)) _rainPos.y += d;
+    if (glfwGetKey(win,GLFW_KEY_DOWN)) _rainPos.y -= d;
+    if (glfwGetKey(win,GLFW_KEY_RIGHT)) _rainPos.x += d;
+    if (glfwGetKey(win,GLFW_KEY_LEFT)) _rainPos.x -= d;
 
     _simulation.rainPos = _rainPos;
 }
@@ -133,20 +133,20 @@ void TerrainFluidSimulation::cameraMovement(double dt)
     vec3 yAxis(0,1,0);
     vec3 xAxis(1,0,0);
 
-    if (glfwGetKey('D')) _cam.TranslateLocal(vec3(camSpeed,0,0));
-    if (glfwGetKey('A')) _cam.TranslateLocal(vec3(-camSpeed,0,0));
+    if (glfwGetKey(win,'D')) _cam.TranslateLocal(vec3(camSpeed,0,0));
+    if (glfwGetKey(win,'A')) _cam.TranslateLocal(vec3(-camSpeed,0,0));
 
-    if (glfwGetKey('R')) _cam.TranslateLocal(vec3(0,camSpeed,0));
-    if (glfwGetKey('F')) _cam.TranslateLocal(vec3(0,-camSpeed,0));
+    if (glfwGetKey(win,'R')) _cam.TranslateLocal(vec3(0,camSpeed,0));
+    if (glfwGetKey(win,'F')) _cam.TranslateLocal(vec3(0,-camSpeed,0));
 
-    if (glfwGetKey('W')) _cam.TranslateLocal(vec3(0,0,-camSpeed));
-    if (glfwGetKey('S')) _cam.TranslateLocal(vec3(0,0,camSpeed));
+    if (glfwGetKey(win,'W')) _cam.TranslateLocal(vec3(0,0,-camSpeed));
+    if (glfwGetKey(win,'S')) _cam.TranslateLocal(vec3(0,0,camSpeed));
 
-    if (glfwGetKey('Q')) _cam.GlobalRotate(yAxis,-rotSpeed);
-    if (glfwGetKey('E')) _cam.GlobalRotate(yAxis,rotSpeed);
+    if (glfwGetKey(win,'Q')) _cam.GlobalRotate(yAxis,-rotSpeed);
+    if (glfwGetKey(win,'E')) _cam.GlobalRotate(yAxis,rotSpeed);
 
-    if (glfwGetKey('T')) _cam.LocalRotate(xAxis,-rotSpeed);
-    if (glfwGetKey('G')) _cam.LocalRotate(xAxis,rotSpeed);
+    if (glfwGetKey(win,'T')) _cam.LocalRotate(xAxis,-rotSpeed);
+    if (glfwGetKey(win,'G')) _cam.LocalRotate(xAxis,rotSpeed);
 }
 
 void TerrainFluidSimulation::updatePhysics(double dt)
@@ -167,7 +167,7 @@ void TerrainFluidSimulation::render()
     // Resize
     int w,h;
     bool resize = false;
-    glfwGetWindowSize(&w,&h);
+    glfwGetWindowSize(win,&w,&h);
     if (w != _width)
     {
         _width = w;
@@ -214,7 +214,7 @@ void TerrainFluidSimulation::render()
     _testShader->UnBind();
 
     // finish
-    glfwSwapBuffers();
+    glfwSwapBuffers(win);
     glFinish();
 }
 

@@ -13,6 +13,7 @@
 #include "vector"
 
 #include <random>
+#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/glm.hpp>
 #include <glm/gtx/compatibility.hpp>
 #include "MathUtil.h"

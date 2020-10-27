@@ -19,12 +19,12 @@
 
 using namespace std;
 
+GLFWwindow* win = 0;
 TerrainFluidSimulation* simulationPtr = 0;
 
-int onWindowClose()
+void onWindowClose( GLFWwindow* )
 {
     if (simulationPtr) simulationPtr->Stop();
-    return GL_TRUE;
 }
 
 int main(int argc, char** argv)
@@ -63,24 +63,30 @@ int main(int argc, char** argv)
     }
 
 
-    glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4); // 4x antialiasing
+    glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
     // Use OpenGL Core v3.2
-    glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
-    glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
-    glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwOpenWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
     // Open an OpenGL window
-    if( !glfwOpenWindow( windowWidth,windowHeight, 8,8,8,8,8,8, GLFW_WINDOW ) )
+    win = glfwCreateWindow( windowWidth, windowHeight, "Terrain", NULL, NULL );
+    if( ! win )
     {
         std::cerr << "[GLFW] Error opening window" << std::endl;
         glfwTerminate();
         exit(1);
     }
 
+    glfwMakeContextCurrent( win );
+
     int major, minor, rev;
 
-    glfwGetGLVersion(&major, &minor, &rev);
+    major = glfwGetWindowAttrib( win, GLFW_CONTEXT_VERSION_MAJOR );
+    minor = glfwGetWindowAttrib( win, GLFW_CONTEXT_VERSION_MINOR );
+    rev   = glfwGetWindowAttrib( win, GLFW_CONTEXT_REVISION );
+
 
     fprintf(stdout, "OpenGL version recieved: %d.%d.%d\n", major, minor, rev);
     // Init Glew (OpenGL Extension Loading)
@@ -101,12 +107,16 @@ int main(int argc, char** argv)
     // Start Simulation ////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////
 
-    glfwSetWindowCloseCallback(onWindowClose);
+    glfwSetWindowCloseCallback(win, onWindowClose);
+
 
     simulationPtr = new TerrainFluidSimulation(terrainDim);
     simulationPtr->Run();
 
     delete simulationPtr;
+    glfwDestroyWindow( win );
+    glfwTerminate();
+
     cout << "The end." << endl;
     return 0;
 }

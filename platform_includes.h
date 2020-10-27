@@ -38,7 +38,6 @@
 #include <GL/glew.h> // brew install glew
 
 #include <GL/glx.h>
-#include <GL/glfw.h>
 
 
 
@@ -46,6 +45,9 @@
 // for Windows
 // No support, sorry
 #endif
+
+#include <GLFW/glfw3.h>
+extern GLFWwindow* win;
 
 typedef unsigned int uint;
 typedef unsigned long ulong;
